@@ -1,8 +1,5 @@
 //llama-chatbot-replicate from A2Z
 
-// import * as fs from 'fs';
-// import fs from 'fs';
-
 const userInput = document.getElementById('user-input');
 
 // Event listener to adjust the height of the text area based on its content
@@ -44,7 +41,6 @@ async function sendMessage() {
   const message = userInput.value;
   userInput.value = '';
   appendMessage('you', message);
-
   conversationHistory.push({ role: 'user', content: message });
 
   const chatContainer = document.getElementById('chat-container');
@@ -58,6 +54,7 @@ async function sendMessage() {
       },
       body: JSON.stringify({ history: conversationHistory }),
     });
+
     const data = await response.json();
     appendMessage('chatbot', data.reply);
     conversationHistory.push({ role: 'buddy', content: data.reply });

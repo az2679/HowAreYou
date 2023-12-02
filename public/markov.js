@@ -1,3 +1,51 @@
+async function generate(history) {
+  let formattedHistory = '';
+
+  for (let i = 0; i < history.length; i++) {
+    if (history[i].role === 'user') {
+      formattedHistory += `[INST] ${history[i].content} [/INST]\n`;
+
+      // 1. add input to existing responses
+      fs.appendFile('data.txt', history[i].content, function (err) {
+        if (err) {
+          console.error(err);
+        }
+      });
+    } else {
+      formattedHistory += `${history[i].content}\n`;
+    }
+  }
+  if (formattedHistory.endsWith('\n')) {
+    formattedHistory = formattedHistory.slice(0, -1);
+  }
+
+  //2. generate markov
+  const lines = fs.readFileSync('voice-over.txt', 'utf-8');
+  fs.readFile('data.txt', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(data);
+  });
+  let markov = new MarkovGeneratorWord(1, 280);
+  for (let i = 0; i < lines.length; i++) {
+    markov.feed(lines[i]);
+  }
+  let result = markov.generateMarkov();
+
+  result = result.replace('\n', '<br/><br/>');
+
+  const input = {
+    prompt: formattedHistory,
+    temperature: 0.5,
+    system_prompt: `Someone asked you, “how are you?” Respond based on how you feel, but do not ask them how they are.`,
+  };
+
+  const output = await replicate.run(`${model}:${version}`, { input });
+  return output.join('').trim();
+}
+
 // A2Z F23
 // Daniel Shiffman
 // https://github.com/Programming-from-A-to-Z/A2Z-F23
