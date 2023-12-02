@@ -7,10 +7,10 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-    <h1>Hi</h1>
+    <h1>How are you?</h1>
     <div id="chat-container"></div>
-    <div class="input-container">
-      <textarea
+      <div class="input-container">
+        <textarea
         id="user-input"
         placeholder="Type your message..."
         onkeydown="if(event.keyCode === 13 && !event.shiftKey) { sendMessage(); event.preventDefault(); }"
@@ -18,6 +18,6 @@
       <button onclick="sendMessage()">Send</button>
     </div>
     <script src="chat.js"></script>
-    <script src="markov.js"></script>
+    <!-- <script src="markov.js" type="module"></script> -->
   </body>
 </html>
