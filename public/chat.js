@@ -1,17 +1,16 @@
-//llama-chatbot-replicate from A2Z
+/*
+Chat Formating
+Daniel Shiffman, A2Z F23 llama-chatbot-replicate - https://github.com/Programming-from-A-to-Z/llama-chatbot-replicate
+*/
 
 const userInput = document.getElementById('user-input');
-
-// Event listener to adjust the height of the text area based on its content
 userInput.addEventListener('input', function () {
   this.style.height = 'auto';
   this.style.height = this.scrollHeight + 'px';
 });
 
-// Initialize an array to store the conversation history
 let conversationHistory = [];
 
-// Function to append a message to the chat container
 function appendMessage(who, message) {
   const chatContainer = document.getElementById('chat-container');
   const messageDiv = document.createElement('div');
@@ -21,21 +20,17 @@ function appendMessage(who, message) {
   roleSpan.className = who.toLowerCase();
   roleSpan.textContent = who + ': ';
 
-  // Create a span element to contain the message text
   const contentSpan = document.createElement('span');
   contentSpan.className = 'message-content';
   contentSpan.textContent = message;
 
-  // Add the sender label and message content to the message div
   messageDiv.appendChild(roleSpan);
   messageDiv.appendChild(contentSpan);
   chatContainer.appendChild(messageDiv);
 
-  // Automatically scroll the chat container to the newest message
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-// Async function to handle sending messages
 async function sendMessage() {
   const userInput = document.getElementById('user-input');
   const message = userInput.value;
