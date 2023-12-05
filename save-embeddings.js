@@ -1,8 +1,3 @@
-/*
-Saving Embeddings
-Daniel Shiffman, A2Z F23 Save-Embeddings-JSON - https://github.com/Programming-from-A-to-Z/Save-Embeddings-JSON
-*/
-
 import Replicate from 'replicate';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';

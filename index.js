@@ -139,13 +139,6 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-/*
-Markov
-
-Daniel Shiffman, A2Z F23 -https://github.com/Programming-from-A-to-Z/A2Z-F23
-Based on Allison Parrish, RWET Ex - https://github.com/aparrish/rwet-examples
-*/
-
 String.prototype.tokenize = function () {
   return this.split(/\s+/);
 };
@@ -193,10 +186,6 @@ class MarkovGeneratorWord {
   }
 }
 
-/*
-Cosine Similarity Functions
-Daniel Shiffman, A2Z F23 Example-RAG-Replicate - https://github.com/Programming-from-A-to-Z/Example-RAG-Replicate
-*/
 function dotProduct(vecA, vecB) {
   return vecA.reduce((sum, val, i) => sum + val * vecB[i], 0);
 }

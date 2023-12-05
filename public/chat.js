@@ -1,8 +1,3 @@
-/*
-Chat Formating
-Daniel Shiffman, A2Z F23 llama-chatbot-replicate - https://github.com/Programming-from-A-to-Z/llama-chatbot-replicate
-*/
-
 const userInput = document.getElementById('user-input');
 userInput.addEventListener('input', function () {
   this.style.height = 'auto';

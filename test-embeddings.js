@@ -1,8 +1,3 @@
-/*
-Testing Embeddings
-Daniel Shiffman, A2Z F23 Example-RAG-Replicate - https://github.com/Programming-from-A-to-Z/Example-RAG-Replicate
-*/
-
 import Replicate from 'replicate';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
