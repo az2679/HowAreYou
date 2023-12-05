@@ -1,19 +1,14 @@
-/*
-Replicate/LLM,RAG API 
-Daniel Shiffman, A2Z F23 llama-chatbot-replicate - https://github.com/Programming-from-A-to-Z/llama-chatbot-replicate
-Daniel Shiffman, A2Z F23 Example-RAG-Replicate - https://github.com/Programming-from-A-to-Z/Example-RAG-Replicate
-*/
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import Replicate from 'replicate';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import { UMAP } from 'umap-js';
 
 dotenv.config();
 
 const embeddings = JSON.parse(fs.readFileSync('embeddings.json', 'utf-8'));
-console.log('Embeddings loaded.');
+// console.log('Embeddings loaded.');
 
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 const chatModel = 'meta/llama-2-7b-chat';
@@ -85,34 +80,6 @@ async function getEmbedding(text) {
   const output = await replicate.run(`${searchModel}:${searchVersion}`, { input });
   return output[0];
 }
-
-//Endpoint to converse with LLaMA
-app.post('/api/chat', async (req, res) => {
-  const conversationHistory = req.body.history;
-  try {
-    const modelReply = await generate(conversationHistory);
-    res.json({ reply: modelReply });
-  } catch (error) {
-    console.error('[Markov] Error communicating with Replicate API:', error);
-    res.status(500).send('Error generating response');
-  }
-});
-
-// Endpoint to find similar texts based on embeddings
-app.post('/api/similar', async (request, response) => {
-  let prompt = request.body.prompt;
-  console.log('Searching for similar responses to: ' + prompt);
-  let n = request.body.n || 10;
-  try {
-    let similarities = await findSimilar(prompt);
-    similarities = similarities.slice(0, n);
-    response.json(similarities);
-  } catch (error) {
-    console.error('[Similar] Error communicating with Replicate API:', error);
-    res.status(500).send('Error generating response');
-  }
-});
-
 // Function to find similar texts based on cosine similarity
 async function findSimilar(prompt) {
   // console.log('Finding similar responses to: ' + prompt);
@@ -133,6 +100,58 @@ async function findSimilar(prompt) {
   );
   return similarities;
 }
+
+async function clustering() {
+  let embeddingArr = [];
+  for (let i = 0; i < embeddings.length; i++) {
+    embeddingArr.push(embeddings[i].embedding);
+  }
+  // console.log(embeddingArr);
+  let umap = new UMAP({ nNeighbors: 15, minDist: 0.1, nComponents: 2 });
+  let umapResults = umap.fit(embeddingArr);
+  // console.log(umapResults);
+  return umapResults;
+}
+
+//Endpoint to converse with LLaMA
+app.post('/api/chat', async (req, res) => {
+  const conversationHistory = req.body.history;
+  try {
+    const modelReply = await generate(conversationHistory);
+    res.json({ reply: modelReply });
+  } catch (error) {
+    console.error('[/api/chat] Error communicating with Replicate API:', error);
+    res.status(500).send('Error generating response');
+  }
+});
+
+// Endpoint to find similar texts based on embeddings
+app.post('/api/similar', async (request, response) => {
+  let prompt = request.body.prompt;
+  console.log('Searching for similar responses to: ' + prompt);
+  let n = request.body.n || 10;
+  try {
+    let similarities = await findSimilar(prompt);
+    similarities = similarities.slice(0, n);
+    response.json(similarities);
+  } catch (error) {
+    console.error('[/api/similar] Error communicating with Replicate API:', error);
+    response.status(500).send('Error generating response');
+  }
+});
+
+app.post('/api/cluster', async (request, response) => {
+  // let prompt = request.body.prompt;
+  // console.log('Sending Embeddings...');
+  try {
+    let umapResults = await clustering();
+    let umapEmbeds = { umapResults, embeddings };
+    response.json(umapEmbeds);
+  } catch (error) {
+    console.error('[/api/cluster] Error communicating with Replicate API:', error);
+    response.status(500).send('Error generating response');
+  }
+});
 
 const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {

@@ -8,3 +8,4 @@ Final Project for NYU ITP A2Z Fall 2023
 - (llama-chatbot-replicate)[https://github.com/Programming-from-A-to-Z/llama-chatbot-replicate]
 - (Save-Embeddings-JSON)[https://github.com/Programming-from-A-to-Z/Save-Embeddings-JSON]
 - (Example-RAG-Replicate)[https://github.com/Programming-from-A-to-Z/Example-RAG-Replicate]
+- (transformers-js-examples)[https://github.com/Programming-from-A-to-Z/transformers-js-examples]
