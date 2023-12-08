@@ -18,23 +18,6 @@
 //   this.style.height = this.scrollHeight + 'px';
 // });
 
-function respondBox() {
-  const respondInput = document.getElementById('respond-input');
-  if (respondInput.style.display === 'none') {
-    respondInput.style.display = 'block';
-  } else {
-    respondInput.style.display = 'none';
-  }
-}
-function similarBox() {
-  const similarInput = document.getElementById('similar-input');
-  if (similarInput.style.display === 'none') {
-    similarInput.style.display = 'block';
-  } else {
-    similarInput.style.display = 'none';
-  }
-}
-
 let embeddingArr = [];
 let responseArr = [];
 let umapResults = [];
@@ -60,15 +43,29 @@ function appendMessage(who, message) {
   contentSpan.className = 'message-content';
   contentSpan.textContent = message;
 
-  messageDiv.appendChild(roleSpan);
-  messageDiv.appendChild(contentSpan);
+  // messageDiv.appendChild(roleSpan);
+  // messageDiv.appendChild(contentSpan);
   // chatContainer.appendChild(messageDiv);
 
   // chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  const msgContainer = document.getElementById('msg-container');
-  msgContainer.appendChild(messageDiv);
-  msgContainer.scrollTop = msgContainer.scrollHeight;
+  if (who == 'Thoughts') {
+    thoughtBubble();
+    messageDiv.className = 'thoughts';
+    contentSpan.textContent = '...' + message.toLowerCase() + '...';
+    // messageDiv.appendChild(roleSpan);
+    messageDiv.appendChild(contentSpan);
+    // messageDiv.appendChild('...' + contentSpan + '...');
+    const thoughtsContainer = document.getElementById('thoughts-container');
+    thoughtsContainer.appendChild(messageDiv);
+    thoughtsContainer.scrollTop = thoughtsContainer.scrollHeight;
+  } else {
+    messageDiv.appendChild(roleSpan);
+    messageDiv.appendChild(contentSpan);
+    const msgContainer = document.getElementById('msg-container');
+    msgContainer.appendChild(messageDiv);
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+  }
 }
 
 async function sendMessage() {
@@ -98,7 +95,9 @@ async function sendMessage() {
     });
 
     const data = await response.json();
-    appendMessage('Doorman', data.reply);
+    // console.log(data);
+    appendMessage('Doorman', data.reply[0]);
+    appendMessage('Thoughts', data.reply[1]);
     // conversationHistory.push({ role: 'doorman', content: data.reply });
     console.log(JSON.stringify(conversationHistory, null, 2));
   } catch (error) {
@@ -265,5 +264,36 @@ class Dot {
   over(x, y) {
     let d = this.sketch.dist(x, y, this.x, this.y);
     return d < this.r;
+  }
+}
+
+//show/hide divs
+function respondBox() {
+  const respondInput = document.getElementById('respond-input');
+  if (respondInput.style.display === 'none') {
+    respondInput.style.display = 'block';
+  } else {
+    respondInput.style.display = 'none';
+  }
+}
+
+function similarBox() {
+  const similarInput = document.getElementById('similar-input');
+  if (similarInput.style.display === 'none') {
+    similarInput.style.display = 'block';
+  } else {
+    similarInput.style.display = 'none';
+  }
+}
+
+function thoughtBubble() {
+  const thoughtBubble = document.getElementById('thought-bubble').getElementsByClassName('dot');
+  // console.log(thoughtBubble[0]);
+  if (thoughtBubble[0].style.display === 'none') {
+    thoughtBubble[0].style.display = 'block';
+    thoughtBubble[1].style.display = 'block';
+  } else {
+    thoughtBubble[0].style.display = 'none';
+    thoughtBubble[1].style.display = 'none';
   }
 }

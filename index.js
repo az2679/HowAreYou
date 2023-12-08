@@ -67,7 +67,12 @@ async function generate(history) {
 
   const output = await replicate.run(`${chatModel}:${chatVersion}`, { input });
   console.log(`Reformatting with LLaMA: ${output.join('').trim()}`);
-  return output.join('').trim();
+
+  const response = [];
+  response.push(output.join('').trim());
+  response.push(result);
+
+  return response;
 }
 
 // Function to get embedding for a given text
