@@ -86,17 +86,18 @@ button:hover {
   border-radius: 5px;
   margin: 5px 0;
   border: 1px solid #e6e6e6;
+  background-color: #ffffffb4;
 }
 
 .you,
 .raanapbot {
   font-weight: bold;
   margin-right: 5px;
-  color: #007bff;
+  color: #E92C35;
 }
 
 .message-content {
-  color: #333;
+  color: #000000;
   white-space: pre-line; /* Preserves newlines and spaces */
 }
 
@@ -143,4 +144,31 @@ button:hover {
   width: 350px;
   height: 20px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none; /* This will prevent manual resizing by the user */
+  overflow: auto;
+  min-height: 10px; /* Initial height */
+  margin-bottom: 10px; /* Adds some space between the textarea and the button */
+}
+
+#msg-container {
+  /* background-color: white; */
+  position:absolute;
+  width: 550px;
+  height: 125px;
+  top: 100px;
+  left: 45px;
+  overflow: auto;
+  /* padding: 10px; */
+  margin-bottom: 10px;
+}
+
+#cluster-container{
+  /* background-color: white; */
+  position:absolute;
+  top: 90px;
+  left: 625px;
+  width: 600px;
+  height: 600px;
 }

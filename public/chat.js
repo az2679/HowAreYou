@@ -12,11 +12,11 @@
 //   };
 // });
 
-const userInput = document.getElementById('user-input');
-userInput.addEventListener('input', function () {
-  this.style.height = 'auto';
-  this.style.height = this.scrollHeight + 'px';
-});
+// const userInput = document.getElementById('user-input');
+// userInput.addEventListener('input', function () {
+//   this.style.height = 'auto';
+//   this.style.height = this.scrollHeight + 'px';
+// });
 
 function respondBox() {
   const respondInput = document.getElementById('respond-input');
@@ -41,14 +41,14 @@ let umapResults = [];
 
 let conversationHistory = [
   {
-    role: 'chatbot',
+    role: 'doorman',
     content: 'How are you?',
   },
 ];
-appendMessage('chatbot', 'How are you?');
+appendMessage('Doorman', 'How are you?');
 
 function appendMessage(who, message) {
-  const chatContainer = document.getElementById('chat-container');
+  // const chatContainer = document.getElementById('chat-container');
   const messageDiv = document.createElement('div');
   messageDiv.className = 'message';
 
@@ -62,23 +62,30 @@ function appendMessage(who, message) {
 
   messageDiv.appendChild(roleSpan);
   messageDiv.appendChild(contentSpan);
-  chatContainer.appendChild(messageDiv);
+  // chatContainer.appendChild(messageDiv);
 
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+  // chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  const imgContainer = document.getElementById('chat-container');
-  imgContainer.appendChild(messageDiv);
+  const msgContainer = document.getElementById('msg-container');
+  msgContainer.appendChild(messageDiv);
+  msgContainer.scrollTop = msgContainer.scrollHeight;
 }
 
 async function sendMessage() {
-  const userInput = document.getElementById('user-input');
-  const message = userInput.value;
-  userInput.value = '';
-  appendMessage('you', message);
+  // const userInput = document.getElementById('user-input');
+  // const message = userInput.value;
+  // userInput.value = '';
+  const respondInput = document.getElementById('respond-input');
+  const message = respondInput.value;
+  respondInput.value = '';
+
+  appendMessage('you', message + ' How are you?');
   conversationHistory.push({ role: 'user', content: message });
 
-  const chatContainer = document.getElementById('chat-container');
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+  // const chatContainer = document.getElementById('chat-container');
+  // chatContainer.scrollTop = chatContainer.scrollHeight;
+  const msgContainer = document.getElementById('msg-container');
+  msgContainer.scrollTop = msgContainer.scrollHeight;
 
   try {
     const response = await fetch('/api/chat', {
@@ -90,8 +97,8 @@ async function sendMessage() {
     });
 
     const data = await response.json();
-    appendMessage('chatbot', data.reply);
-    conversationHistory.push({ role: 'buddy', content: data.reply });
+    appendMessage('Doorman', data.reply);
+    conversationHistory.push({ role: 'doorman', content: data.reply });
     console.log(JSON.stringify(conversationHistory, null, 2));
   } catch (error) {
     console.error('Error communicating with server:', error);
@@ -99,13 +106,20 @@ async function sendMessage() {
 }
 
 async function search() {
-  const userInput = document.getElementById('user-input');
-  const searchMessage = userInput.value;
-  userInput.value = '';
-  appendMessage('you', searchMessage);
+  // const userInput = document.getElementById('user-input');
+  // const searchMessage = userInput.value;
+  // userInput.value = '';
 
-  const chatContainer = document.getElementById('chat-container');
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+  const similarInput = document.getElementById('similar-input');
+  const searchMessage = similarInput.value;
+  similarInput.value = '';
+
+  appendMessage('you', searchMessage + ' Does anyone else feels this way?');
+
+  // const chatContainer = document.getElementById('chat-container');
+  // chatContainer.scrollTop = chatContainer.scrollHeight;
+  const msgContainer = document.getElementById('msg-container');
+  msgContainer.scrollTop = msgContainer.scrollHeight;
 
   try {
     // Send a POST request to the '/api/similar' endpoint
@@ -124,7 +138,7 @@ async function search() {
       output += `"${chunk.text}" Score: ${chunk.similarity.toFixed(3)}\n`;
     }
     // resultsP.html(output);
-    appendMessage('chatbot', `Someone on the floor feels just like you! They said: "${results[0].text}"`);
+    appendMessage('Doorman', `Yes, they said: "${results[0].text}"`);
   } catch (error) {
     console.error('Error communicating with server:', error);
   }
@@ -156,13 +170,14 @@ async function cluster() {
 }
 
 async function clusterMap() {
+  const clusterContainer = document.getElementById('cluster-container');
   // Instance mode in p5.js for encapsulating the sketch, enabling compatibility with external modules
   new p5((sketch) => {
     let dots = [];
-
     // Setup function to initialize the canvas and process data
     sketch.setup = async () => {
-      sketch.createCanvas(800, 800);
+      let c = sketch.createCanvas(600, 600);
+      c.parent(clusterContainer);
       // let umapResults = umap.fit(embeddingArr);
       // Mapping UMAP results to pixel space for visualization
       let [maxW, minW, maxH, minH] = mapUMAPToPixelSpace(umapResults, sketch);
@@ -179,7 +194,7 @@ async function clusterMap() {
     // Draw function to render dots on canvas
     sketch.draw = () => {
       if (dots.length > 0) {
-        sketch.background(0);
+        sketch.background(160, 30, 42);
         dots.forEach((dot) => dot.show());
         dots.forEach((dot) => {
           if (dot.over(sketch.mouseX, sketch.mouseY)) {
@@ -228,16 +243,18 @@ class Dot {
 
   // Display the dot on canvas
   show() {
-    this.sketch.fill(175);
-    this.sketch.stroke(255);
+    this.sketch.fill(246, 229, 198);
+    // this.sketch.stroke(29, 51, 73);
+    this.sketch.stroke(246, 229, 198);
+    this.sketch.strokeWeight(2);
     this.sketch.circle(this.x, this.y, this.r * 2);
   }
 
   // Display the associated text of the dot
   showText() {
-    this.sketch.fill(255);
+    this.sketch.fill(246, 229, 198);
     this.sketch.noStroke();
-    this.sketch.textSize(24);
+    this.sketch.textSize(18);
     this.sketch.text(this.response, 10, this.sketch.height - 10);
     // this.sketch.textSize(14);
     // this.sketch.text(this.response, this.x + 5, this.y + 5);
