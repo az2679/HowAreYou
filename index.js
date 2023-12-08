@@ -27,7 +27,7 @@ async function generate(history) {
 
   for (let i = 0; i < history.length; i++) {
     if (history[i].role === 'user') {
-      formattedHistory += `[INST] ${history[i].content} [/INST]\n`;
+      formattedHistory += `[INST] ${history[i].content} How are you? [/INST]\n`;
     } else {
       formattedHistory += `${history[i].content}\n`;
     }
@@ -59,9 +59,11 @@ async function generate(history) {
   const input = {
     prompt: formattedHistory,
     temperature: 0.1,
-    system_prompt: `Someone asked you, “how are you?” This, "${result}", is how you feel. Do not reply with any questions.`,
+    // system_prompt: `Someone asked you, “how are you?” This, "${result}", is how you feel. Respond based on how you feel but do not ask any questions in your response.`,
+    system_prompt: `Someone asked you, “how are you?” Respond as if you feel like this: ${result}. Do not ask any questions in your response.`,
   };
-  // console.log(`System Prompt: ${input.system_prompt}`);
+  // console.log(`Sending to LLaMA: ${input} `);
+  console.log(input);
 
   const output = await replicate.run(`${chatModel}:${chatVersion}`, { input });
   console.log(`Reformatting with LLaMA: ${output.join('').trim()}`);

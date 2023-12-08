@@ -40,10 +40,10 @@ let responseArr = [];
 let umapResults = [];
 
 let conversationHistory = [
-  {
-    role: 'doorman',
-    content: 'How are you?',
-  },
+  // {
+  //   role: 'doorman',
+  //   content: 'How are you?',
+  // },
 ];
 appendMessage('Doorman', 'How are you?');
 
@@ -80,7 +80,8 @@ async function sendMessage() {
   respondInput.value = '';
 
   appendMessage('you', message + ' How are you?');
-  conversationHistory.push({ role: 'user', content: message });
+  // conversationHistory.push({ role: 'user', content: message });
+  conversationHistory[0] = { role: 'user', content: message };
 
   // const chatContainer = document.getElementById('chat-container');
   // chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -98,7 +99,7 @@ async function sendMessage() {
 
     const data = await response.json();
     appendMessage('Doorman', data.reply);
-    conversationHistory.push({ role: 'doorman', content: data.reply });
+    // conversationHistory.push({ role: 'doorman', content: data.reply });
     console.log(JSON.stringify(conversationHistory, null, 2));
   } catch (error) {
     console.error('Error communicating with server:', error);
@@ -138,7 +139,7 @@ async function search() {
       output += `"${chunk.text}" Score: ${chunk.similarity.toFixed(3)}\n`;
     }
     // resultsP.html(output);
-    appendMessage('Doorman', `Yes, they said: "${results[0].text}"`);
+    appendMessage('Doorman', `Yes! They said: "${results[0].text}"`);
   } catch (error) {
     console.error('Error communicating with server:', error);
   }
