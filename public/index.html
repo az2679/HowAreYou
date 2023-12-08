@@ -8,11 +8,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
   </head>
   <body>
-    <h1>How are you?</h1>
+    <h1>"How are you?"</h1>
+    <div id="img-container">
+      <img src="./assets/pixlr4.png" alt="AI generated image of a bellhop inside an elevator in an isometric view" style="width:600px; height:600px">
+      <div class="btn-container">
+        <button class="btn" style="top:490px; left:50px" onclick="respondBox()">Respond</button>
+        <textarea
+        id="respond-input" hidden
+        placeholder="Type your response..."
+        style='top:490px; left: 175px;'
+        onkeydown="if(event.keyCode === 13 && !event.shiftKey) { sendMessage(); event.preventDefault(); }"
+        ></textarea>
+      </div>
+      <div class="btn-container">
+        <button class="btn" style="top:560px; left:50px"onclick="similarBox()">Similar</button>
+        <textarea
+        id="similar-input" hidden
+        placeholder="Type your response..."
+        style='top:560px; left: 175px;'
+        onkeydown="if(event.keyCode === 13 && !event.shiftKey) { search(); event.preventDefault(); }"
+        ></textarea>
+      </div>
+      <button class="btn" style="top:630px; left:50px" onclick="cluster()">Cluster</button>
+    </div>
+
+
+
+
+    
     <div id="chat-container"></div>
       <div class="input-container">
         <textarea
-        id="user-input"
+        id="user-input" 
         placeholder="Type your message..."
         onkeydown="if(event.keyCode === 13 && !event.shiftKey) { sendMessage(); event.preventDefault(); }"
       ></textarea>

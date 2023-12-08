@@ -1,10 +1,39 @@
-// import { UMAP } from './umap-js';
+// new p5((sketch) => {
+//   let img;
+//   sketch.preload = async () => {
+//     img = sketch.loadImage('./assets/pixlr4.png');
+//   };
+//   sketch.setup = async () => {
+//     sketch.createCanvas(600, 600);
+//     sketch.background(220);
+//     sketch.image(img, 0, 0, 600, 600);
+//   };
+//   sketch.draw = () => {
+//   };
+// });
 
 const userInput = document.getElementById('user-input');
 userInput.addEventListener('input', function () {
   this.style.height = 'auto';
   this.style.height = this.scrollHeight + 'px';
 });
+
+function respondBox() {
+  const respondInput = document.getElementById('respond-input');
+  if (respondInput.style.display === 'none') {
+    respondInput.style.display = 'block';
+  } else {
+    respondInput.style.display = 'none';
+  }
+}
+function similarBox() {
+  const similarInput = document.getElementById('similar-input');
+  if (similarInput.style.display === 'none') {
+    similarInput.style.display = 'block';
+  } else {
+    similarInput.style.display = 'none';
+  }
+}
 
 let embeddingArr = [];
 let responseArr = [];
@@ -36,6 +65,9 @@ function appendMessage(who, message) {
   chatContainer.appendChild(messageDiv);
 
   chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  const imgContainer = document.getElementById('chat-container');
+  imgContainer.appendChild(messageDiv);
 }
 
 async function sendMessage() {
@@ -207,6 +239,8 @@ class Dot {
     this.sketch.noStroke();
     this.sketch.textSize(24);
     this.sketch.text(this.response, 10, this.sketch.height - 10);
+    // this.sketch.textSize(14);
+    // this.sketch.text(this.response, this.x + 5, this.y + 5);
   }
 
   // Check if a point (x, y) is over this dot

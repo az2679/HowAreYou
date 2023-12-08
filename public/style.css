@@ -11,8 +11,8 @@ body {
 }
 h1 {
   font-size: 2em;
-  color: #007bff;
-  margin-bottom: 20px;
+  color: #000000;
+  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -98,4 +98,49 @@ button:hover {
 .message-content {
   color: #333;
   white-space: pre-line; /* Preserves newlines and spaces */
+}
+
+#img-container {
+  width: 90%;
+  max-width: 600px;
+  height: 600px;
+  border: 1px solid #ccc;
+  /* overflow: auto; */
+  /* padding: 10px; */
+  margin-bottom: 10px;
+  /* background-color: #fff; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  position: absolute;
+  background-color: #39b2ac;
+  color: white;
+  font-size: 16px;
+  padding: 10px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+#btn-container {
+  position:relative;
+  /* display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 600px;
+  margin-top: 10px; */
+}
+
+.btn:hover{
+  background-color: #F9E5C6;
+}
+
+.btn-container textarea{
+  position:absolute;
+  width: 350px;
+  height: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }

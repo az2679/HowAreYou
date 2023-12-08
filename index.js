@@ -58,8 +58,8 @@ async function generate(history) {
 
   const input = {
     prompt: formattedHistory,
-    temperature: 0.25,
-    system_prompt: `Someone asked you, “how are you?” This, "${result}", is how you feel. Also, you had already asked how they are doing earlier. So, do not ask how they are.`,
+    temperature: 0.1,
+    system_prompt: `Someone asked you, “how are you?” This, "${result}", is how you feel. Do not reply with any questions.`,
   };
   // console.log(`System Prompt: ${input.system_prompt}`);
 
