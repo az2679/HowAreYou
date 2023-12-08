@@ -29,6 +29,10 @@ let conversationHistory = [
   // },
 ];
 appendMessage('Doorman', 'How are you?');
+// appendMessage(
+//   'Thoughts',
+//   'How are youHow are youHow are youHow are youHow are youHow are youHow are youHow are youHow are youHow are youHow are you'
+// );
 
 function appendMessage(who, message) {
   // const chatContainer = document.getElementById('chat-container');
@@ -49,8 +53,14 @@ function appendMessage(who, message) {
 
   // chatContainer.scrollTop = chatContainer.scrollHeight;
 
+  // const thoughtBubble = document.getElementById('thought-bubble').getElementsByClassName('dot');
+  const thoughtBubble = document.getElementById('thought-bubble');
   if (who == 'Thoughts') {
-    thoughtBubble();
+    // thoughtBubble();
+    // for (let i = 0; i < thoughtBubble.length; i++) {
+    //   thoughtBubble[i].style.display = 'block';
+    // }
+    thoughtBubble.style.display = 'block';
     messageDiv.className = 'thoughts';
     contentSpan.textContent = '...' + message.toLowerCase() + '...';
     // messageDiv.appendChild(roleSpan);
@@ -60,6 +70,10 @@ function appendMessage(who, message) {
     thoughtsContainer.appendChild(messageDiv);
     thoughtsContainer.scrollTop = thoughtsContainer.scrollHeight;
   } else {
+    // for (let i = 0; i < thoughtBubble.length; i++) {
+    //   thoughtBubble[i].style.display = 'none';
+    // }
+    thoughtBubble.style.display = 'none';
     messageDiv.appendChild(roleSpan);
     messageDiv.appendChild(contentSpan);
     const msgContainer = document.getElementById('msg-container');
@@ -176,7 +190,7 @@ async function clusterMap() {
     let dots = [];
     // Setup function to initialize the canvas and process data
     sketch.setup = async () => {
-      let c = sketch.createCanvas(600, 600);
+      let c = sketch.createCanvas(200, 600);
       c.parent(clusterContainer);
       // let umapResults = umap.fit(embeddingArr);
       // Mapping UMAP results to pixel space for visualization
@@ -186,7 +200,7 @@ async function clusterMap() {
       for (let i = 0; i < umapResults.length; i++) {
         let x = sketch.map(umapResults[i][0], minW, maxW, 10, sketch.width - 10);
         let y = sketch.map(umapResults[i][1], minH, maxH, 10, sketch.height - 10);
-        let dot = new Dot(x, y, responseArr[i], embeddingArr[i], sketch);
+        let dot = new Dot(x, y, responseArr[i], embeddingArr[i], sketch, [i]);
         dots.push(dot);
       }
     };
@@ -232,13 +246,14 @@ async function clusterMap() {
 
 // Dot class for representing and visualizing each data point
 class Dot {
-  constructor(x, y, response, embedding, sketch) {
+  constructor(x, y, response, embedding, sketch, num) {
     this.x = x;
     this.y = y;
     this.response = response;
     this.embedding = embedding;
     this.sketch = sketch;
-    this.r = 4;
+    this.r = 6;
+    this.num = num;
   }
 
   // Display the dot on canvas
@@ -247,7 +262,15 @@ class Dot {
     // this.sketch.stroke(29, 51, 73);
     this.sketch.stroke(246, 229, 198);
     this.sketch.strokeWeight(2);
-    this.sketch.circle(this.x, this.y, this.r * 2);
+    this.sketch.circle(this.x, this.y, this.r * 4);
+    this.sketch.stroke(160, 30, 42);
+    this.sketch.fill(255);
+    this.sketch.textSize(10);
+    //this.sketch.textAlign(CENTER);
+    let w = this.sketch.textWidth(this.num);
+    let h = this.sketch.textAscent() - this.sketch.textDescent();
+    // console.log(w);
+    this.sketch.text(this.num, this.x - w / 2, this.y + h / 2);
   }
 
   // Display the associated text of the dot
@@ -255,6 +278,7 @@ class Dot {
     this.sketch.fill(246, 229, 198);
     this.sketch.noStroke();
     this.sketch.textSize(18);
+    // this.sketch.textAlign(LEFT, CENTER);
     this.sketch.text(this.response, 10, this.sketch.height - 10);
     // this.sketch.textSize(14);
     // this.sketch.text(this.response, this.x + 5, this.y + 5);
@@ -277,7 +301,7 @@ function respondBox() {
   }
 }
 
-function similarBox() {
+function followBox() {
   const similarInput = document.getElementById('similar-input');
   if (similarInput.style.display === 'none') {
     similarInput.style.display = 'block';
@@ -286,14 +310,23 @@ function similarBox() {
   }
 }
 
-function thoughtBubble() {
-  const thoughtBubble = document.getElementById('thought-bubble').getElementsByClassName('dot');
-  // console.log(thoughtBubble[0]);
-  if (thoughtBubble[0].style.display === 'none') {
-    thoughtBubble[0].style.display = 'block';
-    thoughtBubble[1].style.display = 'block';
+// function thoughtBubble() {
+//   const thoughtBubble = document.getElementById('thought-bubble').getElementsByClassName('dot');
+//   // console.log(thoughtBubble[0]);
+//   if (thoughtBubble[0].style.display === 'none') {
+//     thoughtBubble[0].style.display = 'block';
+//     thoughtBubble[1].style.display = 'block';
+//   } else {
+//     thoughtBubble[0].style.display = 'none';
+//     thoughtBubble[1].style.display = 'none';
+//   }
+// }
+
+function ignoreBox() {
+  const ingoreDiv = document.getElementById('ignore-div');
+  if (ingoreDiv.style.display === 'none') {
+    ingoreDiv.style.display = 'block';
   } else {
-    thoughtBubble[0].style.display = 'none';
-    thoughtBubble[1].style.display = 'none';
+    ingoreDiv.style.display = 'none';
   }
 }

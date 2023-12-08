@@ -16,27 +16,33 @@
         <button class="btn" style="top:530px; left:50px" onclick="respondBox()">Respond</button>
         <textarea
         id="respond-input" 
-        placeholder="Type your response..."
+        placeholder="The doorman just asked you how are you. Gotta say something now..."
         style='top:530px; left: 175px; display:none;'
         onkeydown="if(event.keyCode === 13 && !event.shiftKey) { sendMessage(); event.preventDefault(); }"
         ></textarea>
       </div>
       <div class="btn-container">
-        <button class="btn" style="top:575px; left:50px"onclick="similarBox()">Similar</button>
+        <button class="btn" style="top:575px; left:50px"onclick="followBox()">Follow-Up</button>
         <textarea
         id="similar-input" hidden
-        placeholder="Type your response..."
+        placeholder="Quick ! Give another response, how else are you doing?. Keep the convo going :<"
         style='top:575px; left: 175px; display:none;'
         onkeydown="if(event.keyCode === 13 && !event.shiftKey) { search(); event.preventDefault(); }"
         ></textarea>
       </div>
-      <button class="btn" style="top:620px; left:50px" onclick="cluster()">Cluster</button>
-      <!-- <img id="thought-bubble" src="./assets/thoughtBubble.png" alt="white thought bubble" style="display:none; position:absolute; width:255px; height:40px; top:230px; left:340px;"> -->
+      <div class="btn-container">
+        <button class="btn" style="top:620px; left:50px" onclick="cluster();ignoreBox()">Ignore</button>
+        <div id="ignore-div" style="display:none">
+          <p id="ignore-text">Pretend you didn’t hear anything and there’s no one else here. Go to push an elevator button → </p>
+        </div>
+      </div>
+      <img id="thought-bubble" src="./assets/thoughtBubble.png" alt="white thought bubble" style="display: none; position:absolute; width:300px; height:175px; top:130px; left:320px;">
         <!-- <span class="dot" style=" top:250px; left:320px;"></span> -->
-      <div id="thought-bubble">
+      <!-- <div id="thought-bubble">
         <span class="dot" style="position:absolute; top:245px; left:335px;"></span>
         <span class="dot" style="position:absolute; top:255px; left:330px; height: 5px; width: 5px;"></span>
-      </div>
+        <span class="dot" style="position:absolute; top:230px; left:345px; height: 5px; width: 50px;"></span>
+      </div> -->
       <div id="thoughts-container"></div>
     </div>
     <div id="cluster-container"></div>
