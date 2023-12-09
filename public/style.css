@@ -250,15 +250,15 @@ button:hover {
   overflow: none;
   min-height: 10px; /* Initial height */
   /* margin-bottom: 10px; */
-  top:630px; 
+  top:621px; 
   left: 175px; 
 
   /* display:none; */
 }
 
 #ignore-text{
-  font-size: 11.5px;
-  color: #b9b9b9;
+  font-size: 11px;
+  color: #989898;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;

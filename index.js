@@ -59,8 +59,8 @@ async function generate(history) {
   const input = {
     prompt: formattedHistory,
     temperature: 0.1,
-    // system_prompt: `Someone asked you, “how are you?” This, "${result}", is how you feel. Respond based on how you feel but do not ask any questions in your response.`,
-    system_prompt: `Someone asked you, “how are you?” Respond as if you feel like this: ${result}. Do not ask any questions in your response.`,
+    // system_prompt: `Someone asked you, “how are you?” Respond as if you feel like this: "${result}". But no matter what, do not ask any questions in your response.`,
+    system_prompt: `Make this, "${result}", comprehensible with proper grammar and respond to "how are you?". No matter what, do not ask any questions in your response. Reply only with the formatted answer.`,
   };
   // console.log(`Sending to LLaMA: ${input} `);
   console.log(input);

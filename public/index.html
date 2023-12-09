@@ -24,7 +24,7 @@
       <div class="btn-container">
         <button class="btn" style="top:575px; left:50px"onclick="followBox()">Follow-Up</button>
         <textarea
-        id="similar-input" hidden
+        id="similar-input" 
         placeholder="Quick ! Give another response, how else are you doing?. Keep the convo going :<"
         style='top:575px; left: 175px; display:none;'
         onkeydown="if(event.keyCode === 13 && !event.shiftKey) { search(); event.preventDefault(); }"
@@ -36,7 +36,7 @@
           <p id="ignore-text">Pretend you didn’t hear anything and there’s no one else here. Go to push an elevator button → </p>
         </div>
       </div>
-      <img id="thought-bubble" src="./assets/thoughtBubble.png" alt="white thought bubble" style="display: none; position:absolute; width:300px; height:175px; top:130px; left:320px;">
+      <img id="thought-bubble" src="./assets/thoughtBubble.png" alt="white thought bubble" style="display: block; position:absolute; width:300px; height:175px; top:130px; left:320px;">
         <!-- <span class="dot" style=" top:250px; left:320px;"></span> -->
       <!-- <div id="thought-bubble">
         <span class="dot" style="position:absolute; top:245px; left:335px;"></span>
